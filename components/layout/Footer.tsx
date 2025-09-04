@@ -1,7 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { Heart, BookOpen, Mail, Phone, MessageCircle, Instagram, Linkedin } from 'lucide-react';
+import { useTranslations } from '@/hooks/useTranslations';
 
 export function Footer() {
+  const { t } = useTranslations();
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -15,9 +19,7 @@ export function Footer() {
               <h3 className="font-bold text-xl text-emerald-300">Islamic History</h3>
             </div>
             <p className="text-gray-300 leading-relaxed mb-4">
-              Dedicated to preserving and sharing the rich heritage of Islamic history, 
-              with special focus on the life and teachings of Prophet Muhammad (Peace Be Upon Him) 
-              and the early Muslim community.
+              {t('footer.description')}
             </p>
             <p className="text-sm text-gray-400">
               Educational content for learning and understanding Islamic heritage.
@@ -26,26 +28,26 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-lg mb-4 text-emerald-300">Categories</h4>
+            <h4 className="font-semibold text-lg mb-4 text-emerald-300">{t('footer.categories')}</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/category/prophet-muhammad" className="text-gray-300 hover:text-emerald-300 transition-colors">
-                  Prophet Muhammad (PBUH)
+                  {t('navigation.prophetMuhammad')}
                 </Link>
               </li>
               <li>
                 <Link href="/category/early-islam" className="text-gray-300 hover:text-emerald-300 transition-colors">
-                  Early Islam
+                  {t('navigation.earlyIslam')}
                 </Link>
               </li>
               <li>
                 <Link href="/category/companions" className="text-gray-300 hover:text-emerald-300 transition-colors">
-                  Companions
+                  {t('navigation.companions')}
                 </Link>
               </li>
               <li>
                 <Link href="/category/civilization" className="text-gray-300 hover:text-emerald-300 transition-colors">
-                  Islamic Civilization
+                  {t('navigation.civilization')}
                 </Link>
               </li>
             </ul>

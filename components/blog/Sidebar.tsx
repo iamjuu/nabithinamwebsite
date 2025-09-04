@@ -1,8 +1,12 @@
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
 import { Search, TrendingUp, Calendar } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 const categories = [
   { name: 'Prophet Muhammad (PBUH)', count: 15, href: '/category/prophet-muhammad' },
@@ -36,6 +40,46 @@ const recentPosts = [
 ];
 
 export function Sidebar() {
+  const { toast } = useToast();
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email.trim()) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address to subscribe.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!email.includes('@')) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setEmail('');
+      
+      toast({
+        title: "Successfully Subscribed!",
+        description: "Thank you for subscribing to our newsletter. You'll receive updates about new articles on Islamic history.",
+        variant: "default",
+      });
+    }, 1000);
+  };
+
   return (
     <div className="space-y-6">
       {/* Search */}
@@ -118,15 +162,23 @@ export function Sidebar() {
           <p className="text-sm text-gray-600 mb-4">
             Get notified about new articles on Islamic history and heritage.
           </p>
-          <div className="space-y-3">
+          <form onSubmit={handleNewsletterSubmit} className="space-y-3">
             <Input
+              type="email"
               placeholder="Your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="border-emerald-200 focus:border-emerald-500"
+              disabled={isSubmitting}
             />
-            <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 px-4 rounded-md transition-colors font-medium">
-              Subscribe
+            <button 
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white py-2 px-4 rounded-md transition-colors font-medium"
+            >
+              {isSubmitting ? 'Subscribing...' : 'Subscribe'}
             </button>
-          </div>
+          </form>
         </CardContent>
       </Card>
     </div>

@@ -1,43 +1,42 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Calendar, Clock, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-
-const featuredArticles = [
-  {
-    id: 1,
-    title: "The Birth and Early Life of Prophet Muhammad (PBUH)",
-    excerpt: "Explore the early years of Prophet Muhammad in Mecca, from his birth in 570 CE to his marriage with Khadijah (RA).",
-    image: "https://images.pexels.com/photos/8439093/pexels-photo-8439093.jpeg?auto=compress&cs=tinysrgb&w=800",
-    category: "Prophet Muhammad",
-    author: "Islamic Scholar",
-    date: "March 15, 2024",
-    readTime: "8 min read",
-    slug: "birth-early-life-prophet-muhammad"
-  },
-  {
-    id: 2,
-    title: "The First Revelation and Beginning of Prophethood",
-    excerpt: "The transformative moment in Cave Hira when Angel Gabriel first appeared to Prophet Muhammad with the message of Islam.",
-    image: "https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800",
-    category: "Early Islam",
-    author: "Dr. Ahmad Hassan",
-    date: "March 12, 2024",
-    readTime: "10 min read",
-    slug: "first-revelation-beginning-prophethood"
-  }
-];
+import { useTranslations } from '@/hooks/useTranslations';
 
 export function FeaturedArticles() {
+  const { t } = useTranslations();
+
+  const featuredArticles = [
+    {
+      id: 1,
+      title: t('articles.birthTitle'),
+      excerpt: t('articles.birthExcerpt'),
+      image: "https://images.pexels.com/photos/8439093/pexels-photo-8439093.jpeg?auto=compress&cs=tinysrgb&w=800",
+      category: t('navigation.prophetMuhammad'),
+      author: "Islamic Scholar",
+      date: "March 15, 2024",
+      readTime: `8 ${t('common.minRead')}`,
+      slug: "birth-early-life-prophet-muhammad"
+    },
+    {
+      id: 2,
+      title: t('articles.revelationTitle'),
+      excerpt: t('articles.revelationExcerpt'),
+      image: "https://images.pexels.com/photos/8728380/pexels-photo-8728380.jpeg?auto=compress&cs=tinysrgb&w=800",
+      category: t('navigation.earlyIslam'),
+      author: "Dr. Ahmad Hassan",
+      date: "March 12, 2024",
+      readTime: `10 ${t('common.minRead')}`,
+      slug: "first-revelation-beginning-prophethood"
+    }
+  ];
   return (
     <section>
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-bold text-gray-900">Featured Articles</h2>
-        <Link href="/featured" className="text-emerald-600 hover:text-emerald-700 font-medium">
-          View all featured →
-        </Link>
-      </div>
+      <h2 className="text-3xl font-bold text-gray-900 mb-8">{t('articles.featuredTitle')}</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {featuredArticles.map((article) => (

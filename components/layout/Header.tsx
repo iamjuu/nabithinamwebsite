@@ -5,18 +5,23 @@ import Link from 'next/link';
 import { Search, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { LanguageSwitcher } from '@/components/ui/language-switcher';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { t } from '@/lib/translations';
 
 export function Header() {
+  const { currentLanguage, setLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
+  // Use fixed language (English) for navigation items so navbar doesn't change
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Prophet Muhammad (PBUH)', href: '/category/prophet-muhammad' },
-    { name: 'Early Islam', href: '/category/early-islam' },
-    { name: 'Companions', href: '/category/companions' },
-    { name: 'Islamic Civilization', href: '/category/civilization' },
-    { name: 'About', href: '/about' },
+    { name: t('en', 'navigation.home'), href: '/' },
+    { name: t('en', 'navigation.prophetMuhammad'), href: '/category/prophet-muhammad' },
+    { name: t('en', 'navigation.earlyIslam'), href: '/category/early-islam' },
+    { name: t('en', 'navigation.companions'), href: '/category/companions' },
+    { name: t('en', 'navigation.civilization'), href: '/category/civilization' },
+    { name: t('en', 'navigation.about'), href: '/about' },
   ];
 
   return (
@@ -47,7 +52,7 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Search and Mobile Menu */}
+          {/* Search, Language Switcher and Mobile Menu */}
           <div className="flex items-center space-x-4">
             <Button
               variant="ghost"
@@ -57,6 +62,14 @@ export function Header() {
             >
               <Search className="h-5 w-5" />
             </Button>
+
+            {/* Language Switcher - Hidden on mobile */}
+            <div className="hidden sm:block">
+              <LanguageSwitcher
+                currentLanguage={currentLanguage.code}
+                onLanguageChange={setLanguage}
+              />
+            </div>
 
             <Button
               variant="ghost"
@@ -74,7 +87,7 @@ export function Header() {
           <div className="py-4 border-t border-green-100">
             <div className="max-w-md mx-auto">
               <Input
-                placeholder="Search articles..."
+                placeholder={t('en', 'common.search')}
                 className="w-full"
               />
             </div>
@@ -95,6 +108,20 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
+              
+              {/* Language Switcher for Mobile */}
+              <div className="pt-4 border-t border-green-100">
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="text-sm font-medium text-gray-700">{t('en', 'common.language')}:</span>
+                </div>
+                <LanguageSwitcher
+                  currentLanguage={currentLanguage.code}
+                  onLanguageChange={(language) => {
+                    setLanguage(language);
+                    setIsMenuOpen(false);
+                  }}
+                />
+              </div>
             </nav>
           </div>
         )}
